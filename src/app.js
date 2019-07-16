@@ -2,14 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index'
 
-let p = new Promise(function(res,rej){
-    setTimeout(()=>{
-        res('done')
-    },2000)
-})
-p.then(res=>{
-    console.log(res)
-})
+// let p = new Promise(function(res,rej){ /* eslint-disable-line */
+//     setTimeout(()=>{
+//         res('done')
+//     },2000)
+// })
+// p.then(res=>{
+//     console.log(res)
+// })
 import print from './print.js';
 print();
 
