@@ -3,45 +3,16 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const StyleLintPlugin = require("stylelint-webpack-plugin");
 const SpritesmithPlugin = require("webpack-spritesmith");
+const { templateFunction } = require("./util");
 
-// 雪碧图模板函数
-const templateFunction = function(data) {
-    var shared = ".ico { background-image: url(I); background-size:Wpx Hpx;}"
-      .replace("I", data.spritesheet.image)
-      .replace("W", data.spritesheet.width / 2)
-      .replace("H", data.spritesheet.height / 2);
-  
-    var perSprite = data.sprites
-      .map(sprite => {
-        return ".ico-N { width: Wpx; height: Hpx; background-position: Xpx Ypx; }"
-          .replace("N", sprite.name)
-          .replace("W", sprite.width / 2)
-          .replace("H", sprite.height / 2)
-          .replace("X", sprite.offset_x / 2)
-          .replace("Y", sprite.offset_y / 2);
-      })
-      .join("\n");
-  
-    return shared + "\n" + perSprite;
-  };
-
-module.exports = {
+const baseConf = {
   entry: { app: path.resolve(__dirname, "../src/app.js") },
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, "../dist")
+    path: path.resolve(__dirname, "../dist"),
+    publicPath: ""
   },
-  mode: "development",
-  devtool: "eval-source-map",
-  devServer:{
-    contentBase: path.resolve(__dirname,'../dist'),
-    port:55555,
-    hot:true,
-    proxy:{
-        '/api':'http://localhost:55556'
-    },
-    overlay:true
-},
+  mode: '',
   resolve: {
     modules: ["../node_modules", "../src/assets/auto"]
   },
@@ -61,46 +32,6 @@ module.exports = {
         exclude: /node_modules/,
         loader: "vue-loader"
       },
-      {
-        test: /\.scss$/,
-        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"]
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 8092,
-              name: "img/[hash:7].[ext]"
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 8092,
-              name: "media/[hash:7].[ext]"
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 8092,
-              name: "font/[hash:7].[ext]"
-            }
-          }
-        ]
-      }
     ]
   },
   plugins: [
@@ -137,4 +68,5 @@ module.exports = {
       }
     })
   ]
-};
+}
+module.exports = baseConf;
