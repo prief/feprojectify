@@ -13,6 +13,8 @@ import router from './router/index'
 import print from './print.js';
 print();
 
+
+
 if(module.hot){
     module.hot.accept('./print.js',function(){
         console.log('HMRHMRHMR...');

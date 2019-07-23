@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const StyleLintPlugin = require("stylelint-webpack-plugin");
 const SpritesmithPlugin = require("webpack-spritesmith");
 const { templateFunction } = require("./util");
-
+const DebugPlugin =require("debugtool-webpack-plugin");
 const baseConf = {
   entry: { app: path.resolve(__dirname, "../src/app.js") },
   output: {
@@ -30,12 +30,13 @@ const baseConf = {
       {
         test: /\.vue$/,
         exclude: /node_modules/,
-        loader: "vue-loader"
+        loader:  "vue-loader",
       },
     ]
   },
   plugins: [
     new VueLoaderPlugin(),
+    new DebugPlugin({ enable: false }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "../public/index.html"),
       title: "项目模板"
