@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const TerserWebpackPlugin = require("terser-webpack-plugin")
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const OptimizeCSSPlugin = require("optimize-css-assets-webpack-plugin");
+const {CleanWebpackPlugin} = require("clean-webpack-plugin")
 const {
   configureBabelLoader,
   configureURLLoader,
@@ -32,14 +33,15 @@ module.exports = function (
     assetNameRegExp: /\.optimize\.css$/g
   }), new webpack.HashedModuleIdsPlugin() // 引入的包的hash变化的问题
   ];
+ 
+
+  let modern = buildMode === "common" ? false : true;
+  let postfix = buildMode === "common" ? "" : `-${buildMode}`;
   let rules = [
     configureCSSLoader(env),
     configureBabelLoader(modern, browserslist),
     ...configureURLLoader(env)
   ];
-
-  let modern = buildMode === "common" ? false : true;
-  let postfix = buildMode === "common" ? "" : `-${buildMode}`;
 
   if (env === "prod") {
     filename = `js/[name]${postfix}.[chunkhash:8].js`;
@@ -71,6 +73,7 @@ module.exports = function (
     plugins.push(new CleanWebpackPlugin());
   }
   const prodConf = {
+    mode:'production',
     output: {
       filename
     },

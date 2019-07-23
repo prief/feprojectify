@@ -19,6 +19,14 @@ const mock = (data,params)=>{
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
+app.all("*", (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
+  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  res.header("X-Powered-By", "mock");
+  res.header("Content-Type", "application/json;charset=utf-8");
+  next();
+});
 config.forEach(({method,url,data})=>{
     if(method ==='get'){
         app.get(url,(req,res)=>{
