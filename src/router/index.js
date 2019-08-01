@@ -11,11 +11,11 @@ export default  new Router({
     routes:[
         {
             path:'/',
-            component: First
+            component: Hello
         },
         {
-            path:'/hello',
-            component: Hello
+            path:'/first',
+            component: First
         },
         {
             path:'/about',
