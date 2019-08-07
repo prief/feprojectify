@@ -44,31 +44,34 @@ const configureCSSLoader = env => {
 
 // 配置babelloader
 const configureBabelLoader = (modern, browserlist) => {
-  let options = {
-    babelrc: false,
-    presets: [
-      [
-        "@babel/preset-env",
-        {
-          modules: false,
-          corejs: "2.6.9",
-          useBuiltIns: "usage",
-          targets: {
-            browsers: browserlist
-          }
-        }
-      ]
-    ]
-  };
-  let babelLoader = {
-    test: /\.js$/,
-    exclude: /node_modules/,
-    loader: "babel-loader"
+
+ let options = {
+    cacheDirectory: true
   };
 
   if (modern) {
-    babelLoader.options = options;
+    options = Object.assign(options, {
+      babelrc: false,
+      presets: [
+        [
+          "@babel/preset-env",
+          {
+            modules: false,
+            corejs: "2.6.9",
+            useBuiltIns: "usage",
+            targets: {
+              browsers: browserlist
+            }
+          }
+        ]
+      ]
+    });
   }
+  let babelLoader = {
+    test: /\.js$/,
+    exclude: /node_modules/,
+    use: ["thread-loader", { loader: "babel-loader", options }]
+  };
   return babelLoader;
 };
 

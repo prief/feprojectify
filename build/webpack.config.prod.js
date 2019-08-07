@@ -80,23 +80,23 @@ module.exports = function (
     module: { rules },
     plugins,
     optimization: {
-      splitChunks: {
-        chunks: 'async', // initial || all
-        minSize: 30000, // 压缩前多少kb会被抽出
-        minChunks: 1, // 被引用多少次就被抽出
-        maxAsyncRequests: 5, // 按需加载时最大并行请求数
-        maxInitialRequests: 3, // 入口文件最大并行请求数
-        automaticNameDelimiter: '~', // 抽出的文件命名连接符
-        name: true, //抽出块的文件名字
-        cacheGroups: {  // 符合条件的都被抽出
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            name: "vendors",
-            chunks: "all",
-            reuseExistingChunk: true
-          }
-        }
-      },
+      // splitChunks: {  与dll重复，可先注释
+      //   chunks: 'async', // initial || all
+      //   minSize: 30000, // 压缩前多少kb会被抽出
+      //   minChunks: 1, // 被引用多少次就被抽出
+      //   maxAsyncRequests: 5, // 按需加载时最大并行请求数
+      //   maxInitialRequests: 3, // 入口文件最大并行请求数
+      //   automaticNameDelimiter: '~', // 抽出的文件命名连接符
+      //   name: true, //抽出块的文件名字
+      //   cacheGroups: {  // 符合条件的都被抽出
+      //     vendors: {
+      //       test: /[\\/]node_modules[\\/]/,
+      //       name: "vendors",
+      //       chunks: "all",
+      //       reuseExistingChunk: true
+      //     }
+      //   }
+      // },
       runtimeChunk: "single" // webpack运行时代码抽离到独立的文件runtime.js
     }
   };
